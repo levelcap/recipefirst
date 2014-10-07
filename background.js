@@ -1,3 +1,10 @@
+//Adds an outerHtml function to jQuery
+jQuery.fn.outerHTML = function(s) {
+    return s
+        ? this.before(s).remove()
+        : jQuery("<p>").append(this.eq(0).clone()).html();
+};
+
 var recipes = new Array; // Array of clones of recipes found on the page (there could be multiple), or recipe lines/parts
 var titleCopy = ""; // Title, if needed
 
@@ -63,6 +70,20 @@ if (document.domain.indexOf("thepioneerwoman.com") > -1) {
             });
         }
     });
+} else if (document.domain.indexOf("amateurgourmet.com") > -1) {
+    var html = "";
+    $("h2").each(function() {
+        if ($(this).hasClass("fn")) {
+            html += $(this).outerHTML();
+        }
+    });
+    html += $("p.summary").outerHTML();
+    html += $("div.ingredients").outerHTML();
+    html += $("div.instructions").outerHTML();
+
+    if (html != "") {
+        recipes.push($(html));
+    }
 }
 
 
