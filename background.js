@@ -47,12 +47,30 @@ if (document.domain.indexOf("thepioneerwoman.com") > -1) {
 			titleCopy = $(this).next().html();
 		}
 	});
+} else if (document.domain.indexOf("eatliverun.com") > -1) {
+    $("a").each(function () {
+        if ($(this).text().indexOf("Print") > - 1) {
+            var url = $(this).attr("href");
+            $.ajax({
+                url: url,
+                data: "",
+                async: false,
+                success: function (data) {
+                    var pageNode = $(data);
+                    var sites = $(pageNode).find("#sites-canvas");
+                    recipes.push(sites);
+                }
+            });
+        }
+    });
 }
+
 
 // END FINDING RECIPE
 
 // If we've got the recipe, drop it into a floating div
 if (recipes.length > 0) {
+    console.log(recipes);
 	var recipeCard = $("<div id='recipeFirst'></div>").css({"border":"1px solid #CC9933","padding":"1em","box-shadow":"0.5em 0.5em 0.25em #AAAACC","border-radius":"0.3em","background-color":"#FFFFDD"});
 	
 	// Close button
